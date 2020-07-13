@@ -34,7 +34,7 @@ function startGame() {
 
 function turnClick(square) {
     //switches turns after a slot is selected
-    console.log(square.target.id);
+    // console.log(square.target.id);
     turn(square.target.id, huPlayer);
 }
 
@@ -53,10 +53,23 @@ function checkWin(board, player) {
     let gameWon = null;
     for (let [index, win] of winCombos.entries()) {
         //to check if the player has played in all the spots that constitute a win
-        if (win.every(elem => plays.indexOf(elem > -1))) {
+        if (win.every(elem => plays.indexOf(elem) > -1)) {
             gameWon = {index: index, player: player};
             break;
         }
     }
     return gameWon;
+}
+
+function gameOver(gameWon) {
+    //highlight squares of winning combination
+    for (let index of winCombos[gameWon.index]) {
+        document.getElementById(index).style.backgroundColor = 
+        gameWon.player == huPlayer ? "blue" : "red";
+    }
+
+    //to deactivate cells
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].removeEventListener('click', turnClick, false);
+    }
 }
