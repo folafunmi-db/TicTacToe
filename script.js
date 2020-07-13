@@ -33,9 +33,17 @@ function startGame() {
 }
 
 function turnClick(square) {
-    //switches turns after a slot is selected
-    // console.log(square.target.id);
-    turn(square.target.id, huPlayer);
+    //first check if a player has played in the slot slected
+    if (typeof origBoard[square.target.id] == 'number') {
+        //switches turns after a slot is selected
+        //console.log(square.target.id);
+        turn(square.target.id, huPlayer);
+
+        // check if it's a tie before the AI takes a turn
+        if(!checkTie()) {
+            turn(bestSpot(), aiPlayer);
+        }
+    }
 }
 
 function turn(squareId, player) {
@@ -71,5 +79,24 @@ function gameOver(gameWon) {
     //to deactivate cells
     for (let i = 0; i < cells.length; i++) {
         cells[i].removeEventListener('click', turnClick, false);
+    }
+}
+
+function emptySquares() {
+    //filter every element in the original board to see if the type of 
+    //element equals number
+    return origBoard.filter(s => typeof s == 'number');
+}
+
+function bestSpot() {
+    return emptySquares()[0];
+}
+
+function checkTie() {
+    //
+    if (emptySquares().length == 0) {
+        for (var i=0; i < cells.length; i++) {
+            
+        }
     }
 }
