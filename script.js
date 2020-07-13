@@ -43,7 +43,7 @@ function turn(squareId, player) {
     document.getElementById(squareId).innerText = player;
     let gameWon = checkWin(origBoard, player);
     if (gameWon) {
-        gameWon(gameWon);
+        gameOver(gameWon);
     }
 }
 
@@ -52,8 +52,11 @@ function checkWin(board, player) {
     (e === player) ? a.concat(i) : a, []);
     let gameWon = null;
     for (let [index, win] of winCombos.entries()) {
+        //to check if the player has played in all the spots that constitute a win
         if (win.every(elem => plays.indexOf(elem > -1))) {
-            
+            gameWon = {index: index, player: player};
+            break;
         }
     }
+    return gameWon;
 }
